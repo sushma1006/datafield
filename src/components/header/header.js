@@ -56,10 +56,16 @@ function Header () {
 
     const contactValues = [
         {
+            name : "First Name",
+        },
+        {
+            name : "Last Name",
+        },
+        {
             name : "Mobile",
         },
         {
-            name : "First Name",
+            name : "Mobile Type",
         },
         {
             name : "Email",
@@ -71,16 +77,10 @@ function Header () {
             name : "Company",
         },
         {
-            name : "Mobile Type",
-        },
-        {
             name : "Source",
         },
         {
             name : "Stage",
-        },
-        {
-            name : "Last Name",
         },
     ]
      
@@ -243,10 +243,15 @@ function Header () {
                             return(
                                 <Stack padding="8px 16px">
                                     <Paper variant="outlined">
-                                        <Box width="90vw" display="flex" direction="row" alignItems="center">
-                                        <Typography key={index}>
-                                            {contactName.name}
-                                        </Typography>
+                                        <Box width="90vw" display="flex" direction="row" alignItems="center" >
+                                        <Stack direction="row" spacing={2} >
+                                            <Typography key={index}>
+                                                {contactName.name}
+                                            </Typography>
+                                            <Typography sx={{background:" rgba(51, 188, 126, 0.12)",padding : "3px", borderRadius: "8px"}}>Text</Typography>
+                                        </Stack>
+                                        
+                                        
                                         <Stack direction="row" alignItems="center">
                                             <Checkbox
                                                 sx={{
