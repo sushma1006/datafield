@@ -24,8 +24,9 @@ import RenameIcon from "../../assets/icons/renameIcon";
 import AddIcon from "../../assets/icons/addIcon";
 import { useState } from "react";
 import { alpha } from "@mui/material";
+import Drag from "../../assets/icons/drag";
 
-function Header () {
+function Content () {
     const theme = createTheme({
         typography: {
             fontFamily: 'Lexend',
@@ -245,6 +246,7 @@ function Header () {
                                     <Paper variant="outlined">
                                         <Box width="90vw" display="flex" direction="row" alignItems="center" >
                                         <Stack direction="row" spacing={2} >
+                                            <Stack>{Drag()}</Stack>
                                             <Typography key={index}>
                                                 {contactName.name}
                                             </Typography>
@@ -283,4 +285,4 @@ function Header () {
     )
 }
 
-export default Header;
+export default Content;

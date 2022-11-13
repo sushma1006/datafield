@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Stack }from "@mui/material";
 import SideNavBar from "./components/sidenavbar/sidenavbar";
-import Header from "./components/header/header";
+import Content from "./components/Content/content";
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <Box>
       <Stack direction="row">
         <SideNavBar/>
-        <Header/>
+        <Content/>
       </Stack>
       
     </Box>
