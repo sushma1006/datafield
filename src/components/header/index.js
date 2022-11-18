@@ -1,7 +1,7 @@
 import React from "react";
 
-function Content(){
+function Header(){
     return(
-        <Content/>
+        <Header/>
     )
 }

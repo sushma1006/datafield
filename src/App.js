@@ -1,20 +1,24 @@
 import React from "react";
-import { Box, Stack }from "@mui/material";
+import {Stack}from "@mui/material";
 import SideNavBar from "./components/sidenavbar/sidenavbar";
-import Content from "./components/Content/content";
+import Header from "./components/header/header";
+import Content from "./components/content/content";
 
 
 function App() {
   return (
-    <Box>
-      <Stack direction="row">
-        <SideNavBar/>
-        <Content/>
+    <Stack direction="row" >
+      <SideNavBar/>
+      <Stack flexGrow={1}>
+        <Stack>
+          <Header/>
+        </Stack>
+        <Stack>
+          <Content/>
+        </Stack>
       </Stack>
-      
-    </Box>
-    
-  ) 
+    </Stack>
+  ) ;
 }
 
 export default App;

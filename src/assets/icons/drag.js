@@ -1,6 +1,6 @@
 import React from "react";
 
-function Drag(width = "24", height = "24", color='#000000') {
+function Drag(width, height, color) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

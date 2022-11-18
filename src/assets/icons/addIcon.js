@@ -1,6 +1,6 @@
 import React from "react";
 
-function Add(width="24", height="24", color='#2EA871') {
+function Add(width, height, color) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

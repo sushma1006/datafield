@@ -10,6 +10,7 @@ import Settings from "../../assets/icons/settings";
 function SideNavBar() {
   const images = [
     {
+      
       name : Deals,
     },
     {
@@ -61,7 +62,7 @@ function SideNavBar() {
         <img 
           alt="profile" 
           src={profileImage} 
-          style={{ width: 28, height: 28 , borderRadius: "50px"}}
+          style={{ width: 28, height: 28 , borderRadius: "50%"}}
         />
       </Stack>
       
