@@ -22,6 +22,8 @@ import {
         Checkbox,
         Paper, 
     }from "@mui/material";
+import CheckBoxOff from "../../assets/icons/CheckBoxOff";
+import CheckBoxOn from "../../assets/icons/checkBoxOn";
 
 function Content(){
     const theme = createTheme({
@@ -57,49 +59,88 @@ function Content(){
                 }
             },
            
+            MuiCheckbox:{
+                defaultProps:{
+                        icon:CheckBoxOff(22,22,"none"),
+                        checkedIcon : CheckBoxOn(22,22,"#33BC7E")
+                }
+            }
+            
         },
     });
 
-    const [details , setDetails] = useState(null) ;
-        useEffect(() => {
-            const postTodo = () => {
-                const data = {
-                    type : "list",
-                    data : {
-                        source: "Contact",
-                        fieldName: "",
-                    }
-                };
-                const headers = {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json"
+    const styles = {
+        "toggleButton" : {
+            textTransform: "none", 
+            color: alpha("#000000", 0.6),
+            border : "none",
+            padding: "6px 12px", 
+            
+            "&:hover": {
+                background :alpha("#000000", 0.02), 
+            },
+
+            "&.Mui-selected":{
+                color: "#FFFFFF",
+                background: "#33BC7E",
+                "&:hover":{
+                    background: "#33BC7E",
                 }
-                const config = { headers, };
-                axios.post(
-                        'https://api.thelaunchclub.in/fields',
-                        data,
-                        config,
-                        
-                )
-                .then((response) => {
-                    console.log(response.status);
-                    console.log({response});
-                    setDetails(response.data.data.entity);
-                    
-                })
-                    
-            };
-            postTodo();
-        }, []);
-        
+            }
+        },
+
+        "button" :{
+            textTransform: "none",
+            boxShadow : "none", 
+            background:" rgba(51, 188, 126, 0.12)", 
+            color: "#2EA871",
+            borderRadius: "8px",
+            padding:"8px 10px",
+            
+            "&:hover": {
+                background:" rgba(51, 188, 126, 0.12)", 
+                boxShadow: "none",
+            } 
+        }
+    }
+
+    const [details , setDetails] = useState(null) ;
     const [select, setSelect] = useState('contacts');
+
     const handleChangeButton = (event, newValue) => {
         if (newValue != null){
             setSelect(newValue);
         }
     };
-    
-    
+
+    useEffect(() => {
+        const postTodo = () => {
+            const data = {
+                type : "list",
+                data : {
+                    source: "Contact",
+                    fieldName: "",
+                }
+            };
+            const headers = {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            }
+           
+            axios.post(
+                    'https://api.thelaunchclub.in/fields',
+                    data,
+                    headers,
+            )
+            .then((response) => {
+                console.log(response.status);
+                console.log({response});
+                setDetails(response.data.data.entity);
+            })
+        };
+        postTodo();
+    }, []);
+        
     return(
         <Box sx={{ flexGrow: 1}}>
             <ThemeProvider theme={theme}>
@@ -172,64 +213,19 @@ function Content(){
                             >
                                 <ToggleButton 
                                     value="contacts" 
-                                    sx={{textTransform: "none", 
-                                    color: alpha("#000000", 0.6),
-                                    border : "none",
-                                    padding: "6px 12px", 
-                                    
-                                    "&:hover": {
-                                        background :alpha("#000000", 0.02), 
-                                    },
-                        
-                                    "&.Mui-selected":{
-                                        color: "#FFFFFF",
-                                        background: "#33BC7E",
-                                        "&:hover":{
-                                            background: "#33BC7E",
-                                        }
-                                    }}}
+                                    sx={styles.toggleButton}
                                 >
                                     Contacts
                                 </ToggleButton>
                                 <ToggleButton 
                                     value="companies" 
-                                    sx={{textTransform: "none", 
-                                    color: alpha("#000000", 0.6),
-                                    border : "none",
-                                    padding: "6px 12px", 
-                                    
-                                    "&:hover": {
-                                        background :alpha("#000000", 0.02), 
-                                    },
-                        
-                                    "&.Mui-selected":{
-                                        color: "#FFFFFF",
-                                        background: "#33BC7E",
-                                        "&:hover":{
-                                            background: "#33BC7E",
-                                        }
-                                    }}}
+                                    sx={styles.toggleButton}
                                 >
                                     Companies
                                 </ToggleButton>
                                 <ToggleButton 
                                     value="deals" 
-                                    sx={{textTransform: "none", 
-                                    color: alpha("#000000", 0.6),
-                                    border : "none",
-                                    padding: "6px 12px", 
-                                    
-                                    "&:hover": {
-                                        background :alpha("#000000", 0.02), 
-                                    },
-                        
-                                    "&.Mui-selected":{
-                                        color: "#FFFFFF",
-                                        background: "#33BC7E",
-                                        "&:hover":{
-                                            background: "#33BC7E",
-                                        }
-                                    }}}
+                                    sx={styles.toggleButton}
                                 >
                                     Deals
                                 </ToggleButton>
@@ -242,34 +238,16 @@ function Content(){
 
                         <Button 
                             variant="contained"
-                            sx={{textTransform: "none",
-                            boxShadow : "none", 
-                            background:" rgba(51, 188, 126, 0.12)", 
-                            color: "#2EA871",
-                            borderRadius: "8px",
-                            
-                            "&:hover": {
-                                background:" rgba(51, 188, 126, 0.12)", 
-                                boxShadow: "none",
-                            } }}
-                            startIcon={AddIcon("24", "24", "#2EA871")}
+                            sx={styles.button}
+                            startIcon={AddIcon("20", "20", "#2EA871")}
                         >
                             System Fields
                         </Button>
 
                         <Button  
                             variant="contained" 
-                            sx={{textTransform: "none",
-                            boxShadow : "none", 
-                            background:" rgba(51, 188, 126, 0.12)", 
-                            color: "#2EA871",
-                            borderRadius: "8px",
-                            
-                            "&:hover": {
-                                background:" rgba(51, 188, 126, 0.12)", 
-                                boxShadow: "none",
-                            } }}
-                            startIcon={AddIcon("24", "24", "#2EA871")}
+                            sx={styles.button}
+                            startIcon={AddIcon("20", "20", "#2EA871")}
                         >
                           Custom fields
                         </Button>
@@ -285,7 +263,7 @@ function Content(){
                         (details) ? (
                             details.map((ContactDetails)=> {
                                 return(
-                                    <Stack  key={ContactDetails.id} padding="8px 16px">
+                                    <Stack  key={ContactDetails.id} padding="8px">
                                         <Paper variant="outlined"  sx={{ borderRadius: "8px", padding:"8px" }}>
                                             <Stack direction="row">
 

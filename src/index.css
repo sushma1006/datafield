@@ -16,5 +16,7 @@ body {
   font-family: 'Lexend';
   src: url(./assets/fonts/lexend_vietnamese.woff2) format("woff2");
 }
-
+*{
+  padding: 0;
+}
 
