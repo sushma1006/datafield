@@ -55,12 +55,13 @@ function Header () {
                         padding="8px"
                     >
                         <TextField
+                               
                             sx={{
                                 width: 500, 
                                 background:"#ECEEEE", 
-                                border:"none", 
                                 padding:"2px 10px",
                                 borderRadius:"6px", 
+                                
                             }}
                             InputProps={{
                                 startAdornment: (

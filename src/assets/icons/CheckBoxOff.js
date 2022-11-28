@@ -1,6 +1,6 @@
 import React from "react";
 
-function CheckBoxOff(width, height, color="none") {
+function CheckBoxOff(width, height, color) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

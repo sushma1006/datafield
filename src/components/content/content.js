@@ -6,7 +6,7 @@ import { useState } from "react";
 import { alpha, Container } from "@mui/material";
 import Drag from "../../assets/icons/drag";
 import Lexend from "../../assets/fonts/lexend_latin_ext.woff2";
-import { useEffect} from "react";
+
 import axios from "axios";
 import {
         Box,
@@ -24,6 +24,27 @@ import {
     }from "@mui/material";
 import CheckBoxOff from "../../assets/icons/CheckBoxOff";
 import CheckBoxOn from "../../assets/icons/checkBoxOn";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+
+const queryClient = new QueryClient()
+
+const data = {
+    type : "list",
+    data : {
+        source: "Contact",
+        // fieldName: "",
+    }
+  } 
+  
+  const details = async() =>{
+    const {data: response} = await axios.post('https://api.thelaunchclub.in/fields', data, headers)
+    return response.data.entity;
+  }
+   
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  }
 
 function Content(){
     const theme = createTheme({
@@ -61,11 +82,10 @@ function Content(){
            
             MuiCheckbox:{
                 defaultProps:{
-                        icon:CheckBoxOff(22,22,"none"),
-                        checkedIcon : CheckBoxOn(22,22,"#33BC7E")
+                    icon:CheckBoxOff(22,22,"none"),
+                    checkedIcon : CheckBoxOn(22,22,"#33BC7E"),
                 }
             }
-            
         },
     });
 
@@ -104,7 +124,7 @@ function Content(){
         }
     }
 
-    const [details , setDetails] = useState(null) ;
+   
     const [select, setSelect] = useState('contacts');
 
     const handleChangeButton = (event, newValue) => {
@@ -113,35 +133,19 @@ function Content(){
         }
     };
 
-    useEffect(() => {
-        const postTodo = () => {
-            const data = {
-                type : "list",
-                data : {
-                    source: "Contact",
-                    fieldName: "",
-                }
-            };
-            const headers = {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json"
-            }
-           
-            axios.post(
-                    'https://api.thelaunchclub.in/fields',
-                    data,
-                    headers,
-            )
-            .then((response) => {
-                console.log(response.status);
-                console.log({response});
-                setDetails(response.data.data.entity);
-            })
-        };
-        postTodo();
-    }, []);
+    const {isLoading, data, isError} = useQuery(["user-data"],details )
+
+    if (isLoading) {
+        return <h2>Loading...</h2>
+    }
+
+    if (isError) {
+        return <h2>error</h2>
+    }
+
         
     return(
+        <QueryClientProvider client={queryClient}>
         <Box sx={{ flexGrow: 1}}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
@@ -260,11 +264,11 @@ function Content(){
                 <Stack >
                 
                     {
-                        (details) ? (
-                            details.map((ContactDetails)=> {
+                        (data) ? (
+                            data.map((data)=> {
                                 return(
-                                    <Stack  key={ContactDetails.id} padding="8px">
-                                        <Paper variant="outlined"  sx={{ borderRadius: "8px", padding:"8px" }}>
+                                    <Stack  key={data.id} padding="8px">
+                                        <Paper variant="outlined"  sx={{ borderRadius: "8px", padding:"8px"}}>
                                             <Stack direction="row">
 
                                                 <Stack direction="row" width="60%" spacing={2} alignItems="center">
@@ -280,7 +284,7 @@ function Content(){
                                                     </Stack>
                                                 
                                                     <Typography>
-                                                        {ContactDetails.fieldName}
+                                                        {data.fieldName}
                                                     </Typography>
                                                     <Typography 
                                                         sx={{
@@ -330,6 +334,7 @@ function Content(){
 
             </ThemeProvider>
         </Box>
+        </QueryClientProvider>
     )
 }
 
