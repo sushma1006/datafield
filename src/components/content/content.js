@@ -116,17 +116,16 @@ function Content(){
         }
     };
 
-    const {data, status} = useQuery(["user-data"],() => Field() )
-    console.log(data)
-    console.log(status)
+    const {data:field, status} = useQuery(["user-data"],() => Field() )
+    
     
     useEffect (() =>{
-       if(status === "success"){
-        setFieldData([...fieldData,...data])
+       if(status === "success"){ 
+        const contactdata = field.entity
+        setFieldData([...fieldData,...contactdata])
        }
-    },[data,status])
+    },[field,status])
     
-    console.log({fieldData})
     if (status === "loading") {
         return <h2>Loading...</h2>
     }
@@ -136,237 +135,234 @@ function Content(){
     }
     
     function handleOnDragEnd(result) {
-        console.log({fieldData})
-        console.log({result})
         if (!result.destination) return;
         const fieldList  = Array.from(fieldData);
-        console.log(data)
-        console.log({fieldList })
         const [reorderedItem] = fieldList.splice(result.source.index, 1);
         fieldList.splice(result.destination.index, 0, reorderedItem);
         setFieldData(fieldList);
-        console.log({fieldList})
     }
 
     return(
         <QueryClientProvider client={queryClient}>
-        <Box sx={{ flexGrow: 1}}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline/>
+            <Box sx={{ flexGrow: 1}}>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
                     
-                {/* Renamemodule */}
-                <Stack 
-                    direction="row" 
-                    justifyContent="space-between"  
-                    alignItems="center" 
-                    height="68px" 
-                    padding="0 16px"
-                >
-
-                    <Stack  direction="row" spacing={1} alignItems="center">
-                        <Typography fontSize= "16px" fontWeight = "500" sx={{color: "#2EA871"}}> Settings </Typography>
-                        <Stack>{ArrowIcon("16", "16", "#000000")}</Stack>
-                        <Typography sx={{fontSize: "16px" ,fontWeight : "500"}}>Data Fields</Typography>
-                    </Stack>
-
-                    <Button  
-                        sx={{textTransform: "none",
-                        boxShadow : "none", 
-                        background:" rgba(51, 188, 126, 0.12)", 
-                        color: "#2EA871",
-                        borderRadius: "8px",
-                        
-                        "&:hover": {
-                            background:" rgba(51, 188, 126, 0.12)", 
-                            boxShadow: "none",
-                        } }} 
-                        variant="contained" 
-                        startIcon={RenameIcon("20", "20", "#33BC7E")}
-                        
+                    {/* Renamemodule */}
+                    <Stack 
+                        direction="row" 
+                        justifyContent="space-between"  
+                        alignItems="center" 
+                        height="68px" 
+                        padding="0 16px"
                     >
-                        Rename Modules
-                    </Button>
 
-                </Stack>
-                <Divider/>
-
-                {/* ToogleButton */}
-                <Stack direction="row" padding="16px 16px 8px 16px" spacing={2}>
-
-                    <Stack>
-                        <Paper elevation={0}
-                            sx={{
-                                boxShadow: "none",  
-                                background : " rgba(51, 188, 126, 0.12)",
-                                borderRadius: "8px",     
-                            }}>
-
-                            <ToggleButtonGroup 
-                                size="small"
-                                variant="contained"
-                                value={select}
-                                exclusive
-                                onChange={handleChangeButton}
-                                sx={{
-                                    '.MuiToggleButtonGroup-grouped': {
-                                        margin: "4px",
-                                        '&:not(:first-of-type)': {
-                                            borderRadius: "8px",
-                                        },
-                                      '&:first-of-type': {
-                                        borderRadius: "8px",
-                                      },
-                                    }
-                                }}
-                            >
-                                <ToggleButton 
-                                    value="contacts" 
-                                    sx={styles.toggleButton}
-                                >
-                                    Contacts
-                                </ToggleButton>
-                                <ToggleButton 
-                                    value="companies" 
-                                    sx={styles.toggleButton}
-                                >
-                                    Companies
-                                </ToggleButton>
-                                <ToggleButton 
-                                    value="deals" 
-                                    sx={styles.toggleButton}
-                                >
-                                    Deals
-                                </ToggleButton>
-                            </ToggleButtonGroup >
-
-                        </Paper>
-                    </Stack>
-                
-                    <Stack direction="row" spacing={2}>
-
-                        <Button 
-                            variant="contained"
-                            sx={styles.button}
-                            startIcon={AddIcon("20", "20", "#2EA871")}
-                        >
-                            System Fields
-                        </Button>
+                        <Stack  direction="row" spacing={1} alignItems="center">
+                            <Typography fontSize= "16px" fontWeight = "500" sx={{color: "#2EA871"}}> Settings </Typography>
+                            <Stack>{ArrowIcon("16", "16", "#000000")}</Stack>
+                            <Typography sx={{fontSize: "16px" ,fontWeight : "500"}}>Data Fields</Typography>
+                        </Stack>
 
                         <Button  
+                            sx={{
+                                textTransform: "none",
+                                boxShadow : "none", 
+                                ackground:" rgba(51, 188, 126, 0.12)", 
+                                color: "#2EA871",
+                                borderRadius: "8px",
+                        
+                                "&:hover": {
+                                    background:" rgba(51, 188, 126, 0.12)", 
+                                    boxShadow: "none",
+                                } 
+                            }} 
                             variant="contained" 
-                            sx={styles.button}
-                            startIcon={AddIcon("20", "20", "#2EA871")}
+                            startIcon={RenameIcon("20", "20", "#33BC7E")}
                         >
-                          Custom fields
+                            Rename Modules
                         </Button>
 
                     </Stack>
+                    <Divider/>
 
-                </Stack>
+                    {/* ToogleButton */}
+                    <Stack direction="row" padding="16px 16px 8px 16px" spacing={2}>
 
-                {/* values below togglebutton */}               
-                <Stack >
-                    <DragDropContext  onDragEnd={handleOnDragEnd}>
-                        <Droppable droppableId="droppable">
-                        {(provided) => (
-                            <Stack {...provided.droppableProps} ref={provided.innerRef}>
-                                {(fieldData) ? (
-                                    fieldData.map((dataList, index)=> {
-                                        return(
-                                            <Draggable 
-                                                key={dataList.id} 
-                                                draggableId={(dataList.id).toString()} 
-                                                index={index}
-                                            >
-                                                {(provided) => (
-                                                    <Stack 
-                                                        {...provided.draggableProps}  
-                                                        ref={provided.innerRef} 
-                                                        padding="8px"
+                        <Stack>
+                            <Paper elevation={0}
+                                sx={{
+                                    boxShadow: "none",  
+                                    background : " rgba(51, 188, 126, 0.12)",
+                                    borderRadius: "8px",     
+                                }}
+                            >
+
+                                <ToggleButtonGroup 
+                                    size="small"
+                                    variant="contained"
+                                    value={select}
+                                    exclusive
+                                    onChange={handleChangeButton}
+                                    sx={{
+                                        '.MuiToggleButtonGroup-grouped': {
+                                            margin: "4px",
+                                            '&:not(:first-of-type)': {
+                                                borderRadius: "8px",
+                                            },
+                                            '&:first-of-type': {
+                                                borderRadius: "8px",
+                                            },
+                                        }
+                                    }}
+                                >
+                                    <ToggleButton 
+                                        value="contacts" 
+                                        sx={styles.toggleButton}
+                                    >
+                                        Contacts
+                                    </ToggleButton>
+                                    <ToggleButton 
+                                        value="companies" 
+                                        sx={styles.toggleButton}
+                                    >
+                                        Companies
+                                    </ToggleButton>
+                                    <ToggleButton 
+                                        value="deals" 
+                                        sx={styles.toggleButton}
+                                    >
+                                        Deals
+                                    </ToggleButton>
+                                </ToggleButtonGroup >
+
+                            </Paper>
+                        </Stack>
+                
+                        <Stack direction="row" spacing={2}>
+
+                            <Button 
+                                variant="contained"
+                                sx={styles.button}
+                                startIcon={AddIcon("20", "20", "#2EA871")}
+                            >
+                                System Fields
+                            </Button>
+
+                            <Button  
+                                variant="contained" 
+                                sx={styles.button}
+                                startIcon={AddIcon("20", "20", "#2EA871")}
+                            >
+                                Custom fields
+                            </Button>
+
+                        </Stack>
+
+                    </Stack>
+
+                    {/* values below togglebutton */}               
+                    <Stack >
+                        <DragDropContext  onDragEnd={handleOnDragEnd}>
+                            <Droppable droppableId="droppable">
+                                {(provided) => (
+                                    <Stack {...provided.droppableProps} ref={provided.innerRef}>
+                                        {(fieldData) ? (
+                                            fieldData.map((dataList, index)=> {
+                                                return(
+                                                    <Draggable 
+                                                        key={dataList.id} 
+                                                        draggableId={(dataList.id).toString()} 
+                                                        index={index}
                                                     >
-                                                        <Paper 
-                                                            variant="outlined"  
-                                                            sx={{ borderRadius: "8px", padding:"8px"}}
-                                                        >
-                                                            <Stack direction="row">
-
-                                                                <Stack 
-                                                                    direction="row" 
-                                                                    width="60%" 
-                                                                    spacing={2} 
-                                                                    alignItems="center"
+                                                        {(provided) => (
+                                                            <Stack 
+                                                                {...provided.draggableProps}  
+                                                                ref={provided.innerRef} 
+                                                                padding="8px"
+                                                            >
+                                                                <Paper 
+                                                                    variant="outlined"  
+                                                                    sx={{ borderRadius: "8px", padding:"8px"}}
                                                                 >
-                                                                    <Stack 
-                                                                        {...provided.dragHandleProps}
-                                                                        sx={{
-                                                                            paddingLeft :"16px",
-                                                                                "&:hover":{
-                                                                                    cursor:"grab"
-                                                                                }
-                                                                        }}
-                                                                    >
-                                                                        {Drag("24","24","#808080")}
-                                                                    </Stack>
+                                                                    <Stack direction="row">
+
+                                                                        <Stack 
+                                                                            direction="row" 
+                                                                            width="60%" 
+                                                                            spacing={2} 
+                                                                            alignItems="center"
+                                                                        >
+                                                                            <Stack 
+                                                                                {...provided.dragHandleProps}
+                                                                                sx={{
+                                                                                    paddingLeft :"16px",
+                                                                                    "&:hover":{
+                                                                                        cursor:"grab"
+                                                                                    }
+                                                                                }}
+                                                                            >
+                                                                                {Drag("24","24","#808080")}
+                                                                            </Stack>
                                                 
-                                                                    <Typography>
-                                                                        {dataList.fieldName}
-                                                                    </Typography>
-                                                                    <Typography 
-                                                                        sx={{
-                                                                            background:" rgba(51, 188, 126, 0.12)",
-                                                                            padding : "2px 8px", 
-                                                                            borderRadius: "8px"
-                                                                        }}
-                                                                        fontSize= "13px" 
-                                                                    >
-                                                                        Text
-                                                                    </Typography>
-                                                                </Stack>
+                                                                            <Typography>
+                                                                                {dataList.fieldName}
+                                                                            </Typography>
+                                                                            <Typography 
+                                                                                sx={{
+                                                                                    background:" rgba(51, 188, 126, 0.12)",
+                                                                                    padding : "2px 8px", 
+                                                                                    borderRadius: "8px"
+                                                                                }}
+                                                                                fontSize= "13px" 
+                                                                            >
+                                                                                Text
+                                                                            </Typography>
+                                                                        </Stack>
                                            
-                                                                <Container>
-                                                                    <Stack 
-                                                                        direction="row" 
-                                                                        alignItems="center"
-                                                                    >
+                                                                        <Container>
+                                                                            <Stack 
+                                                                                direction="row" 
+                                                                                alignItems="center"
+                                                                            >
 
-                                                                        <Stack
-                                                                            direction="row" 
-                                                                            alignItems="center"
-                                                                            width="25%"
-                                                                        >
-                                                                            <Checkbox/>
-                                                                            <Typography>Add View</Typography>
-                                                                        </Stack>
+                                                                                <Stack
+                                                                                    direction="row" 
+                                                                                    alignItems="center"
+                                                                                    width="25%"
+                                                                                >
+                                                                                    <Checkbox/>
+                                                                                    <Typography>Add View</Typography>
+                                                                                </Stack>
                                                 
-                                                                        <Stack
-                                                                            direction="row" 
-                                                                            alignItems="center"
-                                                                        >
-                                                                            <Checkbox/>
-                                                                            <Typography>Required</Typography>
-                                                                        </Stack>
+                                                                                <Stack
+                                                                                    direction="row" 
+                                                                                    alignItems="center"
+                                                                                >
+                                                                                    <Checkbox/>
+                                                                                    <Typography>Required</Typography>
+                                                                                </Stack>
                                                 
-                                                                    </Stack>
-                                                                </Container>
+                                                                            </Stack>
+                                                                        </Container>
                                             
+                                                                    </Stack>
+                                                                </Paper>
                                                             </Stack>
-                                                        </Paper>
-                                                    </Stack>
-                                                )}
-                                            </Draggable>
-                                        )
-                                    })
-                                ) : (null)}
-                                {provided.placeholder}
-                            </Stack>
-                        )}
-                        </Droppable>
-                    </DragDropContext>
+                                                        )}
+                                                    </Draggable>
+                                                )
+                                            })
+                                        ) : (null)}
+                                        {provided.placeholder}
+                                    </Stack>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
 
-                </Stack>
+                    </Stack>
 
-            </ThemeProvider>
-        </Box>
+                </ThemeProvider>
+            </Box>
         </QueryClientProvider>
     )
 }

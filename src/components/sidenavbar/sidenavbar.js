@@ -10,7 +10,6 @@ import Settings from "../../assets/icons/settings";
 function SideNavBar() {
   const images = [
     {
-      
       name : Deals,
     },
     {

@@ -4,7 +4,7 @@ import axios from "axios";
 const headers = {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
-  }
+}
 
 const Request = () => {
     const data = {
@@ -12,13 +12,10 @@ const Request = () => {
         orgId : 1,
         data : {
             source : "Contact",
-            
         }
     }
-
     return data;
 }
-
 
 export const Field = async() => {
     const request = Request();
@@ -26,11 +23,9 @@ export const Field = async() => {
     return GetRequestedData;
 }
 
-
-
 const RequestData = async(request) =>{
     const url = ContactField();
     const response = await axios.post(url,request,{headers : headers,} )
-    return response.data.data.entity;
+    return response.data.data;
 }
 
