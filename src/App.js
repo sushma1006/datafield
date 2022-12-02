@@ -5,6 +5,8 @@ import Header from "./components/header/header";
 import Content from "./components/content/content";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+
+
 const queryClient = new QueryClient()
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
           <Content/>
         </Stack>
       </Stack>
+      
     </Stack>
     </QueryClientProvider>
   ) ;
