@@ -123,7 +123,7 @@ function Content(){
         if(status === "success"){ 
             setFieldData(field.entity)
         }
-    },[field,status, fieldData])
+    },[field,status])
     
     console.log({fieldData})
 
