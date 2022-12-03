@@ -120,12 +120,13 @@ function Content(){
     
     
     useEffect (() =>{
-       if(status === "success"){ 
-        const contactdata = field.entity
-        setFieldData([...fieldData,...contactdata])
-       }
-    },[field,status])
+        if(status === "success"){ 
+            setFieldData(field.entity)
+        }
+    },[field,status, fieldData])
     
+    console.log({fieldData})
+
     if (status === "loading") {
         return <h2>Loading...</h2>
     }
@@ -167,7 +168,7 @@ function Content(){
                             sx={{
                                 textTransform: "none",
                                 boxShadow : "none", 
-                                ackground:" rgba(51, 188, 126, 0.12)", 
+                                background:" rgba(51, 188, 126, 0.12)", 
                                 color: "#2EA871",
                                 borderRadius: "8px",
                         
