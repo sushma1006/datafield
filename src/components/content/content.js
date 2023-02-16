@@ -331,7 +331,7 @@ function Content(){
                                                                                     alignItems="center"
                                                                                     width="25%"
                                                                                 >
-                                                                                    <Checkbox/>
+                                                                                    <Checkbox disableRipple/>
                                                                                     <Typography>Add View</Typography>
                                                                                 </Stack>
                                                 
@@ -339,7 +339,7 @@ function Content(){
                                                                                     direction="row" 
                                                                                     alignItems="center"
                                                                                 >
-                                                                                    <Checkbox/>
+                                                                                    <Checkbox disableRipple/>
                                                                                     <Typography>Required</Typography>
                                                                                 </Stack>
                                                 
